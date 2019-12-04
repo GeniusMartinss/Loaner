@@ -1,0 +1,16 @@
+scalar Time
+
+type Query {
+  balance(date: Time): Float!
+}
+
+input NewLoan {
+  amount: Float!
+  rate: Float!
+  start: Time!
+}
+
+type Mutation {
+  initiateLoan(input: NewLoan!): Boolean!
+  addPayment(amount: Float!, date: Time!): Boolean!
+}
