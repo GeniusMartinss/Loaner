@@ -75,27 +75,26 @@ func (lh *Handler) Balance(date time.Time) (float64, error) {
 
 	sort.Sort(sort.Reverse(p))
 
-	loanTrx := transactions[0]
+	loanTrx := p[0]
 	interest := 0.0
 	principalBalance := loanTrx.Amount
 	lastValidPayment := loanTrx.CreatedAt
 
 	for i := 1; i < len(transactions); i++ {
-		if transactions[i].CreatedAt.After(date) {
+		if p[i].CreatedAt.After(date) {
 			break
 		}
 		// Time elapsed between payments
-		interestPeriod := transactions[i].CreatedAt.Sub(transactions[i-1].CreatedAt).Hours() / 24
+		interestPeriod := p[i].CreatedAt.Sub(p[i-1].CreatedAt).Hours() / 24
 		interest += (rate / 100 / 365 * principalBalance) * interestPeriod
-		principalBalance -= transactions[i].Amount
-		lastValidPayment = transactions[i].CreatedAt
+		principalBalance -= p[i].Amount
+		lastValidPayment = p[i].CreatedAt
 	}
 
 	// If user still owes some money, and a future balance is requested
 	projectedInterestPeriod := date.Sub(lastValidPayment).Hours() / 24
 	interest += (rate / 100 / 365 * principalBalance) * projectedInterestPeriod
 
-	log.Printf("Checking Balance for date %v", date)
 	return principalBalance + interest, nil
 }
 
