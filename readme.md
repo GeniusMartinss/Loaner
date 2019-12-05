@@ -30,7 +30,7 @@ You should see something similiar:
 2019/12/02 12:30:02 connect to http://localhost:8888/ for GraphQL playground
 ```
 
-- Navigate to [localhost:8080](http://localhost:8888). Please note `8080` is the default port used, you can change this in `main.go` or Dockerfile for your docker deployment
+- Navigate to [localhost:8888](http://localhost:8888). Please note `8888` is the default port used, you can change this in `main.go` or Dockerfile for your docker deployment
 
 This should load up a graphql client you can use to test out the endpoints. Click on docs to see the graphql documentation.
 
